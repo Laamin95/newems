@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS variables for theme switching */
+@layer base {
+  :root {
+    /* Default (dark) theme */
+    --bg-color: #0b1220;
+    --text-color: rgba(255, 255, 255, 0.87);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --card-bg: #1e293b;
+    --button-bg: #334155;
+    --button-border: transparent;
+    --button-hover-border: #0f1724;
+    --accent-color: #646cff;
+    --accent-hover: #535bf2;
+    --hover-bg: rgba(255, 255, 255, 0.05);
+  }
+
+  :root.light {
+    --bg-color: #ffffff;
+    --text-color: #0f172a;
+    --text-secondary: #64748b;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --card-bg: #f8fafc;
+    --button-bg: #f1f5f9;
+    --button-border: #e2e8f0;
+    --button-hover-border: #747bff;
+    --accent-color: #747bff;
+    --accent-hover: #646cff;
+    --hover-bg: rgba(0, 0, 0, 0.05);
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+  }
+
+  button {
+    border-radius: 8px;
+    border: 1px solid var(--button-border);
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  
+  button:hover {
+    border-color: var(--button-hover-border);
+    background-color: var(--hover-bg);
+  }
+  
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+
+  a {
+    font-weight: 500;
+    color: var(--accent-color);
+    text-decoration: inherit;
+    transition: color 0.3s ease;
+  }
+  
+  a:hover {
+    color: var(--accent-hover);
+  }
+
+  #app {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .card {
+    padding: 2em;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+  }
+}
