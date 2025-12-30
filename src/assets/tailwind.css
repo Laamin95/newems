@@ -2,24 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* custom colors */
+@theme {
+  --color-primary: #3b82f6;
+  --color-secondary: #f43f5e;
+  --color-tertiary: #fbbf24;
+  --color-quaternary: #a855f7;
+  --color-accent: #4ade80;
+
+  --color-input-first: #f7f7f8;
+  --color-input-second: #ebe8e8;
+  --color-input-third: #e1e2e4;
+  --color-input-forth: #ccd0d4;
+}
+
 /* Custom CSS variables for theme switching */
 @layer base {
   :root {
-    /* Default (dark) theme */
-    --bg-color: #0b1220;
-    --text-color: rgba(255, 255, 255, 0.87);
-    --text-secondary: rgba(255, 255, 255, 0.6);
-    --border-color: rgba(255, 255, 255, 0.1);
-    --card-bg: #1e293b;
-    --button-bg: #334155;
-    --button-border: transparent;
-    --button-hover-border: #0f1724;
-    --accent-color: #646cff;
-    --accent-hover: #535bf2;
-    --hover-bg: rgba(255, 255, 255, 0.05);
-  }
-
-  :root.light {
+    /* Default (light) theme */
     --bg-color: #ffffff;
     --text-color: #0f172a;
     --text-secondary: #64748b;
@@ -31,6 +31,21 @@
     --accent-color: #747bff;
     --accent-hover: #646cff;
     --hover-bg: rgba(0, 0, 0, 0.05);
+  }
+
+  :root.dark {
+    /* Dark theme */
+    --bg-color: #0b1220;
+    --text-color: rgba(255, 255, 255, 0.87);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --card-bg: #1e293b;
+    --button-bg: #334155;
+    --button-border: transparent;
+    --button-hover-border: #0f1724;
+    --accent-color: #646cff;
+    --accent-hover: #535bf2;
+    --hover-bg: rgba(255, 255, 255, 0.05);
   }
 
   html {
