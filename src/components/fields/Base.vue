@@ -236,22 +236,30 @@
 
   /**
    * CONTROL BINDING
+   * These attributes and events are passed to the #control slot
+   * to be used by child components like InputText, Select, etc.
    */
-  const controlAttrs = computed(() => ({
-    id: props.id,
-    disabled: props.disabled,
-    readonly: props.readonly,
-    value: props.modelValue,
-    required: props.required,
-    'aria-invalid': isErrored.value,
-    dir: selectedDirection.value
-  }))
+  const controlAttrs = computed(() => {
+    const attrs = {
+      disabled: props.disabled,
+      readonly: props.readonly,
+      value: props.modelValue,
+      required: props.required,
+      'aria-invalid': isErrored.value,
+      dir: selectedDirection.value
+    }
+    // Only include id if it's provided (non-empty)
+    if (props.id) {
+      attrs.id = props.id
+    }
+    return attrs
+  })
 
   const controlEvents = {
-    input: e => onInput(e.target.value),
+    input: e => onInput(e.target ? e.target.value : e),
     focus: onFocus,
     blur: onBlur,
-    change: e => emit('change', e.target.value)
+    change: e => emit('change', e.target ? e.target.value : e)
   }
 
   // FIXED: Label positioning logic - use isFocused instead of focused

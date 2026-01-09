@@ -7,13 +7,13 @@
       vertical
     >
       <template #content-0><ButtonExample /></template>
-      <!-- <template #content-1><CheckboxExample /></template>   issue is here -->
+      <template #content-1><CheckboxExample /></template>   
       <template #content-2><SwitchExample /></template>
       <template #content-3><RadioExample /></template>
-      <!-- <template #content-4><InputTextExample /></template>  issue here -->
-      <!-- <template #content-5><DatePickerExample /></template> here also -->
-      <!-- <template #content-6><SelectExample /></template> -->
-      <!-- <template #content-7><InputNumberExample /></template> -->
+      <template #content-4><InputTextExample /></template> 
+      <template #content-5><DatePickerExample /></template> 
+      <template #content-6><SelectExample /></template>
+      <template #content-7><InputNumberExample /></template>
     </Tab>
   </div>
 </template>

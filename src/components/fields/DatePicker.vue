@@ -1,10 +1,9 @@
 <template>
     <div v-on-click-outside="close" :class="['relative', width, margin]">
-    <Base v-bind="$props"
+    <Base v-bind="baseProps"
         :model-value="formattedDate"
         @update:model-value="handleUpdate"
         @click:clear="clearSelection"
-        v-on="$attrs"
         :dir="computedDir"
         :lang="computedLang"
         :label="label"
@@ -154,6 +153,16 @@
     // Use component's dir if provided, otherwise use card's dir
     const computedDir = computed(() => props.dir || cardDir)
     const computedLang = computed(() => props.lang || cardLang)
+
+    // Filter props to only pass Base-compatible props to Base component
+    const baseProps = computed(() => {
+        const basePropsKeys = ['modelValue', 'label', 'dir', 'placeholder', 'prepend', 'append', 'disabled', 'readonly', 'required', 'clearable', 'errorMessages', 'rounded', 'size', 'border', 'textColor', 'bg', 'width', 'hint', 'lang', 'rules', 'error', 'errorMessage', 'messages', 'hideDetails', 'id', 'height', 'margin', 'hover', 'focus', 'bgColorVariant', 'borderColorVariant', 'textColorVariant', 'labelTextSize', 'iconType', 'labelTextColor']
+        const result = {}
+        basePropsKeys.forEach(key => {
+            if (key in props) result[key] = props[key]
+        })
+        return result
+    })
 
     const isOpen = ref(false)
     const internalDate = ref(props.modelValue)

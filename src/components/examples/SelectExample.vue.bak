@@ -8,19 +8,18 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="basicValue" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           placeholder="Select an option"
-          id="basic-select"
         />
         <Select 
           v-model="basicWithLabel" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="Choose a fruit"
           placeholder="Select a fruit"
         />
         <Select 
           v-model="basicPreselected" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="Pre-selected"
         />
       </div>
@@ -35,24 +34,30 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="objectValue" 
-          :items="countryOptions" 
+          :options="countryOptions" 
           label="Select Country"
           placeholder="Choose your country"
-          item-title="name"
-          item-value="code"
+          option-label="name"
+          option-value="code"
         />
         <Select 
           v-model="objectWithIcon" 
-          :items="statusOptions" 
+          :options="statusOptions" 
           label="Select Status"
           placeholder="Choose status"
-          item-title="label"
-          item-value="value"
+          option-label="label"
+          option-value="value"
         >
-          <template #item="{ item }">
+          <template #option="{ option }">
             <div class="flex items-center gap-2">
-              <span :class="['w-2 h-2 rounded-full', item.color]"></span>
-              {{ item.label }}
+              <span :class="['w-2 h-2 rounded-full', option.color]"></span>
+              {{ option.label }}
+            </div>
+          </template>
+          <template #selected="{ selected }">
+            <div class="flex items-center gap-2">
+              <span :class="['w-2 h-2 rounded-full', selected.color]"></span>
+              {{ selected.label }}
             </div>
           </template>
         </Select>
@@ -66,11 +71,11 @@
     <section class="space-y-4">
       <h2 class="text-lg font-semibold ui-text-primary border-b border-color-3 pb-2">Sizes</h2>
       <div class="max-w-md space-y-4">
-        <Select v-model="sizeXs" :items="basicOptions" size="xs" label="Extra Small" placeholder="XS size" />
-        <Select v-model="sizeSm" :items="basicOptions" size="sm" label="Small" placeholder="SM size" />
-        <Select v-model="sizeMd" :items="basicOptions" size="md" label="Medium (Default)" placeholder="MD size" />
-        <Select v-model="sizeLg" :items="basicOptions" size="lg" label="Large" placeholder="LG size" />
-        <Select v-model="sizeXl" :items="basicOptions" size="xl" label="Extra Large" placeholder="XL size" />
+        <Select v-model="sizeXs" :options="basicOptions" size="xs" label="Extra Small" placeholder="XS size" />
+        <Select v-model="sizeSm" :options="basicOptions" size="sm" label="Small" placeholder="SM size" />
+        <Select v-model="sizeMd" :options="basicOptions" size="md" label="Medium (Default)" placeholder="MD size" />
+        <Select v-model="sizeLg" :options="basicOptions" size="lg" label="Large" placeholder="LG size" />
+        <Select v-model="sizeXl" :options="basicOptions" size="xl" label="Extra Large" placeholder="XL size" />
       </div>
     </section>
 
@@ -80,28 +85,28 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="iconLeft" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="With Prepend Icon"
           placeholder="Select fruit"
-          prepend="shopping-bag"
+          prepend-icon="shopping-bag"
         />
         <Select 
           v-model="iconRight" 
-          :items="countryOptions" 
+          :options="countryOptions" 
           label="With Append Icon"
           placeholder="Select country"
-          item-title="name"
-          item-value="code"
-          append="globe-alt"
+          option-label="name"
+          option-value="code"
+          append-icon="globe-alt"
         />
         <Select 
           v-model="iconUser" 
-          :items="userOptions" 
+          :options="userOptions" 
           label="Select User"
           placeholder="Choose a user"
-          item-title="name"
-          item-value="id"
-          prepend="user"
+          option-label="name"
+          option-value="id"
+          prepend-icon="user"
         />
       </div>
     </section>
@@ -112,20 +117,20 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="searchableValue" 
-          :items="countryOptions" 
+          :options="countryOptions" 
           label="Searchable Select"
           placeholder="Type to search..."
-          item-title="name"
-          item-value="code"
+          option-label="name"
+          option-value="code"
           searchable
         />
         <Select 
           v-model="searchableMulti" 
-          :items="tagOptions" 
+          :options="tagOptions" 
           label="Searchable Multi-Select"
           placeholder="Search and select tags..."
-          item-title="name"
-          item-value="id"
+          option-label="name"
+          option-value="id"
           searchable
           multiple
         />
@@ -138,61 +143,81 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="multipleValue" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="Select Multiple Fruits"
           placeholder="Select fruits"
           multiple
         />
         <Select 
           v-model="multipleChips" 
-          :items="tagOptions" 
+          :options="tagOptions" 
           label="With Chips"
           placeholder="Select tags"
-          item-title="name"
-          item-value="id"
+          option-label="name"
+          option-value="id"
           multiple
+          chips
         />
         <Select 
           v-model="multipleLimited" 
-          :items="basicOptions" 
-          label="Multiple Selections"
-          placeholder="Select multiple"
+          :options="basicOptions" 
+          label="Max 3 Selections"
+          placeholder="Select up to 3"
           multiple
-          hint="You can select multiple items"
+          :max-selections="3"
+          hint="You can select maximum 3 items"
         />
       </div>
       <div class="text-sm ui-text-secondary">
-        Multiple: {{ multipleValue }}, Tags: {{ multipleChips }}, Limited: {{ multipleLimited }}
+        Multiple: {{ multipleValue }}, Chips: {{ multipleChips }}, Limited: {{ multipleLimited }}
       </div>
     </section>
 
-    <!-- Cascading Selects -->
+    <!-- Grouped Options -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-semibold ui-text-primary border-b border-color-3 pb-2">Grouped Options</h2>
+      <div class="max-w-md space-y-4">
+        <Select 
+          v-model="groupedValue" 
+          :options="groupedOptions" 
+          label="Grouped Select"
+          placeholder="Select an item"
+          option-label="name"
+          option-value="id"
+          grouped
+          group-label="category"
+          group-options="items"
+        />
+      </div>
+    </section>
+
+    <!-- With Description & Hint -->
     <section class="space-y-4">
       <h2 class="text-lg font-semibold ui-text-primary border-b border-color-3 pb-2">With Description & Hint</h2>
       <div class="max-w-md space-y-4">
         <Select 
           v-model="descValue" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="Favorite Fruit"
           placeholder="Select a fruit"
           description="Choose your most favorite fruit"
         />
         <Select 
           v-model="hintValue" 
-          :items="priorityOptions" 
+          :options="priorityOptions" 
           label="Priority Level"
           placeholder="Select priority"
-          item-title="label"
-          item-value="value"
+          option-label="label"
+          option-value="value"
           hint="Higher priority items are processed first"
         />
         <Select 
           v-model="bothDescHint" 
-          :items="countryOptions" 
+          :options="countryOptions" 
           label="Country of Residence"
           placeholder="Select country"
-          item-title="name"
-          item-value="code"
+          option-label="name"
+          option-value="code"
           description="This will be used for shipping"
           hint="You can change this later in settings"
         />
@@ -205,7 +230,7 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="errorValue" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="Required Field"
           placeholder="This field is required"
           :required="true"
@@ -213,20 +238,20 @@
         />
         <Select 
           v-model="successValue" 
-          :items="countryOptions" 
+          :options="countryOptions" 
           label="Verified Country"
           placeholder="Select country"
-          item-title="name"
-          item-value="code"
+          option-label="name"
+          option-value="code"
           :success="successValue ? 'Country verified!' : ''"
         />
         <Select 
           v-model="warningValue" 
-          :items="priorityOptions" 
+          :options="priorityOptions" 
           label="Priority"
           placeholder="Select priority"
-          item-title="label"
-          item-value="value"
+          option-label="label"
+          option-value="value"
           :warning="warningValue === 'low' ? 'Low priority items may be delayed' : ''"
         />
       </div>
@@ -238,27 +263,27 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="disabledValue" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="Disabled"
           placeholder="Cannot select"
           :disabled="true"
         />
         <Select 
           v-model="readonlyValue" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="Readonly"
           :readonly="true"
         />
         <Select 
           v-model="loadingValue" 
-          :items="[]" 
+          :options="[]" 
           label="Loading"
           placeholder="Fetching options..."
           :loading="true"
         />
         <Select 
           v-model="clearableValue" 
-          :items="basicOptions" 
+          :options="basicOptions" 
           label="Clearable"
           placeholder="Select and clear"
           clearable
@@ -270,11 +295,11 @@
     <section class="space-y-4">
       <h2 class="text-lg font-semibold ui-text-primary border-b border-color-3 pb-2">Rounded Variants</h2>
       <div class="max-w-md space-y-4">
-        <Select v-model="roundedNone" :items="basicOptions" label="None" placeholder="No rounding" rounded="none" />
-        <Select v-model="roundedSm" :items="basicOptions" label="Small" placeholder="Small rounding" rounded="sm" />
-        <Select v-model="roundedMd" :items="basicOptions" label="Medium" placeholder="Medium rounding" rounded="md" />
-        <Select v-model="roundedLg" :items="basicOptions" label="Large" placeholder="Large rounding" rounded="lg" />
-        <Select v-model="roundedFull" :items="basicOptions" label="Full" placeholder="Full rounding" rounded="full" />
+        <Select v-model="roundedNone" :options="basicOptions" label="None" placeholder="No rounding" rounded="none" />
+        <Select v-model="roundedSm" :options="basicOptions" label="Small" placeholder="Small rounding" rounded="sm" />
+        <Select v-model="roundedMd" :options="basicOptions" label="Medium" placeholder="Medium rounding" rounded="md" />
+        <Select v-model="roundedLg" :options="basicOptions" label="Large" placeholder="Large rounding" rounded="lg" />
+        <Select v-model="roundedFull" :options="basicOptions" label="Full" placeholder="Full rounding" rounded="full" />
       </div>
     </section>
 
@@ -284,54 +309,74 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="customTemplateUser" 
-          :items="userOptions" 
+          :options="userOptions" 
           label="Select User"
           placeholder="Choose a team member"
-          item-title="name"
-          item-value="id"
+          option-label="name"
+          option-value="id"
         >
-          <template #item="{ item }">
+          <template #option="{ option }">
             <div class="flex items-center gap-3 py-1">
               <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm">
-                {{ item.name.charAt(0) }}
+                {{ option.name.charAt(0) }}
               </div>
               <div>
-                <div class="font-medium ui-text-primary">{{ item.name }}</div>
-                <div class="text-xs ui-text-secondary">{{ item.role }}</div>
+                <div class="font-medium ui-text-primary">{{ option.name }}</div>
+                <div class="text-xs ui-text-secondary">{{ option.role }}</div>
               </div>
+            </div>
+          </template>
+          <template #selected="{ selected }">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold text-xs">
+                {{ selected.name.charAt(0) }}
+              </div>
+              <span>{{ selected.name }}</span>
             </div>
           </template>
         </Select>
 
         <Select 
           v-model="customTemplateCountry" 
-          :items="countryOptionsWithFlag" 
+          :options="countryOptionsWithFlag" 
           label="Select Country"
           placeholder="Choose a country"
-          item-title="name"
-          item-value="code"
+          option-label="name"
+          option-value="code"
         >
-          <template #item="{ item }">
+          <template #option="{ option }">
             <div class="flex items-center gap-2">
-              <span class="text-xl">{{ item.flag }}</span>
-              <span>{{ item.name }}</span>
-              <span class="text-xs ui-text-secondary">({{ item.code }})</span>
+              <span class="text-xl">{{ option.flag }}</span>
+              <span>{{ option.name }}</span>
+              <span class="text-xs ui-text-secondary">({{ option.code }})</span>
+            </div>
+          </template>
+          <template #selected="{ selected }">
+            <div class="flex items-center gap-2">
+              <span>{{ selected.flag }}</span>
+              <span>{{ selected.name }}</span>
             </div>
           </template>
         </Select>
 
         <Select 
           v-model="customTemplateColor" 
-          :items="colorOptions" 
+          :options="colorOptions" 
           label="Select Color"
           placeholder="Choose a color"
-          item-title="name"
-          item-value="value"
+          option-label="name"
+          option-value="value"
         >
-          <template #item="{ item }">
+          <template #option="{ option }">
             <div class="flex items-center gap-2">
-              <span :class="['w-2 h-2 rounded-full', item.class]"></span>
-              <span>{{ item.name }}</span>
+              <span :class="['w-4 h-4 rounded', option.class]"></span>
+              <span>{{ option.name }}</span>
+            </div>
+          </template>
+          <template #selected="{ selected }">
+            <div class="flex items-center gap-2">
+              <span :class="['w-4 h-4 rounded', selected.class]"></span>
+              <span>{{ selected.name }}</span>
             </div>
           </template>
         </Select>
@@ -344,21 +389,21 @@
       <div class="max-w-md space-y-4">
         <Select 
           v-model="asyncValue" 
-          :items="asyncOptions" 
+          :options="asyncOptions" 
           label="Async Select"
           placeholder="Click to load options"
-          item-title="name"
-          item-value="id"
+          option-label="name"
+          option-value="id"
           :loading="asyncLoading"
           @open="loadAsyncOptions"
         />
         <Select 
           v-model="asyncSearchValue" 
-          :items="asyncSearchOptions" 
+          :options="asyncSearchOptions" 
           label="Async Search"
           placeholder="Type to search..."
-          item-title="title"
-          item-value="id"
+          option-label="title"
+          option-value="id"
           searchable
           :loading="asyncSearchLoading"
           @search="handleAsyncSearch"
@@ -392,32 +437,32 @@
           </div>
           <Select 
             v-model="formCountry" 
-            :items="countryOptions" 
+            :options="countryOptions" 
             label="Country"
             placeholder="Select your country"
-            item-title="name"
-            item-value="code"
-            prepend="globe-alt"
+            option-label="name"
+            option-value="code"
+            prepend-icon="globe-alt"
             searchable
             :required="true"
           />
           <Select 
             v-model="formTimezone" 
-            :items="timezoneOptions" 
+            :options="timezoneOptions" 
             label="Timezone"
             placeholder="Select timezone"
-            item-title="label"
-            item-value="value"
-            prepend="clock"
+            option-label="label"
+            option-value="value"
+            prepend-icon="clock"
             searchable
           />
           <Select 
             v-model="formLanguage" 
-            :items="languageOptions" 
+            :options="languageOptions" 
             label="Preferred Language"
             placeholder="Select language"
-            item-title="name"
-            item-value="code"
+            option-label="name"
+            option-value="code"
           />
           <button class="w-full py-2 px-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
             Create Account
@@ -442,38 +487,38 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Select 
             v-model="filterCategory" 
-            :items="categoryOptions" 
+            :options="categoryOptions" 
             label="Category"
             placeholder="All categories"
-            item-title="name"
-            item-value="id"
+            option-label="name"
+            option-value="id"
             clearable
             size="sm"
           />
           <Select 
             v-model="filterStatus" 
-            :items="statusOptions" 
+            :options="statusOptions" 
             label="Status"
             placeholder="All statuses"
-            item-title="label"
-            item-value="value"
+            option-label="label"
+            option-value="value"
             clearable
             size="sm"
           >
-            <template #item="{ item }">
+            <template #option="{ option }">
               <div class="flex items-center gap-2">
-                <span :class="['w-2 h-2 rounded-full', item.color]"></span>
-                {{ item.label }}
+                <span :class="['w-2 h-2 rounded-full', option.color]"></span>
+                {{ option.label }}
               </div>
             </template>
           </Select>
           <Select 
             v-model="filterPriority" 
-            :items="priorityOptions" 
+            :options="priorityOptions" 
             label="Priority"
             placeholder="All priorities"
-            item-title="label"
-            item-value="value"
+            option-label="label"
+            option-value="value"
             clearable
             size="sm"
           />
@@ -481,22 +526,23 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <Select 
             v-model="filterTags" 
-            :items="tagOptions" 
+            :options="tagOptions" 
             label="Tags"
             placeholder="Select tags"
-            item-title="name"
-            item-value="id"
+            option-label="name"
+            option-value="id"
             multiple
+            chips
             searchable
             size="sm"
           />
           <Select 
             v-model="filterAssignee" 
-            :items="userOptions" 
+            :options="userOptions" 
             label="Assignee"
             placeholder="All assignees"
-            item-title="name"
-            item-value="id"
+            option-label="name"
+            option-value="id"
             clearable
             searchable
             size="sm"
@@ -530,41 +576,47 @@
         <div class="space-y-4">
           <Select 
             v-model="productSize" 
-            :items="sizeOptions" 
+            :options="sizeOptions" 
             label="Size"
             placeholder="Select size"
-            item-title="label"
-            item-value="value"
+            option-label="label"
+            option-value="value"
             :required="true"
           >
-            <template #item="{ item }">
+            <template #option="{ option }">
               <div class="flex items-center justify-between w-full">
-                <span>{{ item.label }}</span>
-                <span :class="['w-2 h-2 rounded-full', item.inStock ? 'text-green-500' : 'text-red-500']">
-                  {{ item.inStock ? 'In Stock' : 'Out of Stock' }}
+                <span>{{ option.label }}</span>
+                <span :class="['text-xs', option.inStock ? 'text-green-500' : 'text-red-500']">
+                  {{ option.inStock ? 'In Stock' : 'Out of Stock' }}
                 </span>
               </div>
             </template>
           </Select>
           <Select 
             v-model="productColor" 
-            :items="productColorOptions" 
+            :options="productColorOptions" 
             label="Color"
             placeholder="Select color"
-            item-title="name"
-            item-value="value"
+            option-label="name"
+            option-value="value"
             :required="true"
           >
-            <template #item="{ item }">
+            <template #option="{ option }">
               <div class="flex items-center gap-2">
-                <span :class="['w-2 h-2 rounded-full', item.class]"></span>
-                <span>{{ item.name }}</span>
+                <span :class="['w-5 h-5 rounded-full border border-color-3', option.class]"></span>
+                <span>{{ option.name }}</span>
+              </div>
+            </template>
+            <template #selected="{ selected }">
+              <div class="flex items-center gap-2">
+                <span :class="['w-4 h-4 rounded-full border border-color-3', selected.class]"></span>
+                <span>{{ selected.name }}</span>
               </div>
             </template>
           </Select>
           <Select 
             v-model="productQuantity" 
-            :items="quantityOptions" 
+            :options="quantityOptions" 
             label="Quantity"
             placeholder="Select quantity"
           />
@@ -586,30 +638,30 @@
         <div class="space-y-4">
           <Select 
             v-model="cascadeCountry" 
-            :items="cascadeCountryOptions" 
+            :options="cascadeCountryOptions" 
             label="Country"
             placeholder="Select country"
-            item-title="name"
-            item-value="code"
+            option-label="name"
+            option-value="code"
             @change="handleCountryChange"
           />
           <Select 
             v-model="cascadeState" 
-            :items="cascadeStateOptions" 
+            :options="cascadeStateOptions" 
             label="State/Province"
             placeholder="Select state"
-            item-title="name"
-            item-value="code"
+            option-label="name"
+            option-value="code"
             :disabled="!cascadeCountry"
             @change="handleStateChange"
           />
           <Select 
             v-model="cascadeCity" 
-            :items="cascadeCityOptions" 
+            :options="cascadeCityOptions" 
             label="City"
             placeholder="Select city"
-            item-title="name"
-            item-value="id"
+            option-label="name"
+            option-value="id"
             :disabled="!cascadeState"
           />
         </div>
@@ -632,35 +684,36 @@
         <div class="p-6 space-y-4">
           <Select 
             v-model="settingsEmailFreq" 
-            :items="frequencyOptions" 
+            :options="frequencyOptions" 
             label="Email Digest Frequency"
             placeholder="Select frequency"
-            item-title="label"
-            item-value="value"
+            option-label="label"
+            option-value="value"
             description="How often should we send you email digests?"
           />
           <Select 
             v-model="settingsNotifyTypes" 
-            :items="notificationTypeOptions" 
+            :options="notificationTypeOptions" 
             label="Notification Types"
             placeholder="Select types"
-            item-title="label"
-            item-value="value"
+            option-label="label"
+            option-value="value"
             multiple
+            chips
             description="Which types of notifications do you want to receive?"
           />
           <Select 
             v-model="settingsTheme" 
-            :items="themeOptions" 
+            :options="themeOptions" 
             label="Theme"
             placeholder="Select theme"
-            item-title="label"
-            item-value="value"
+            option-label="label"
+            option-value="value"
           >
-            <template #item="{ item }">
+            <template #option="{ option }">
               <div class="flex items-center gap-2">
-                <span>{{ item.icon }}</span>
-                <span>{{ item.label }}</span>
+                <span>{{ option.icon }}</span>
+                <span>{{ option.label }}</span>
               </div>
             </template>
           </Select>
@@ -684,30 +737,30 @@
         <div class="grid grid-cols-3 gap-4">
           <Select 
             v-model="compareProduct1" 
-            :items="productOptions" 
+            :options="productOptions" 
             label="Product 1"
             placeholder="Select product"
-            item-title="name"
-            item-value="id"
+            option-label="name"
+            option-value="id"
             clearable
           />
           <Select 
             v-model="compareProduct2" 
-            :items="availableProducts2" 
+            :options="availableProducts2" 
             label="Product 2"
             placeholder="Select product"
-            item-title="name"
-            item-value="id"
+            option-label="name"
+            option-value="id"
             clearable
             :disabled="!compareProduct1"
           />
           <Select 
             v-model="compareProduct3" 
-            :items="availableProducts3" 
+            :options="availableProducts3" 
             label="Product 3"
             placeholder="Select product"
-            item-title="name"
-            item-value="id"
+            option-label="name"
+            option-value="id"
             clearable
             :disabled="!compareProduct2"
           />

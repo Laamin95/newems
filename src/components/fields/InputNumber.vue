@@ -1,14 +1,11 @@
 <template>
     <Base
-        v-bind="$props"
+        v-bind="baseProps"
         :model-value="displayValue"
         @update:model-value="handleInput"
         @click:clear="clearValue"
-        v-on="$attrs"
         :dir="computedDir"
         :lang="computedLang"
-        type="text"
-        inputmode="decimal"
         :readonly="readonly"
         :disabled="disabled"
         :clearable="clearable"
@@ -108,7 +105,7 @@
                     :value="displayValue"
                     type="text"
                     inputmode="decimal"
-                    :placeholder="placeholder"
+                    :placeholder="computedPlaceholder"
                     :disabled="disabled"
                     :readonly="readonly"
                     :class="[
@@ -236,6 +233,16 @@ const cardLang = inject('parentLang', '')
 const computedDir = computed(() => props.dir || cardDir)
 const computedLang = computed(() => props.lang || cardLang)
 
+// Filter props to only pass Base-compatible props to Base component
+const baseProps = computed(() => {
+    const basePropsKeys = ['modelValue', 'label', 'dir', 'placeholder', 'prepend', 'append', 'disabled', 'readonly', 'required', 'clearable', 'errorMessages', 'rounded', 'size', 'border', 'textColor', 'bg', 'width', 'hint', 'lang', 'rules', 'error', 'errorMessage', 'messages', 'hideDetails', 'id', 'height', 'margin', 'hover', 'focus', 'bgColorVariant', 'borderColorVariant', 'textColorVariant', 'labelTextSize', 'iconType', 'labelTextColor']
+    const result = {}
+    basePropsKeys.forEach(key => {
+        if (key in props) result[key] = props[key]
+    })
+    return result
+})
+
 const inputRef = ref(null)
 const isFocused = ref(false)
 const holdInterval = ref(null)
@@ -297,6 +304,15 @@ const displayValue = computed(() => {
     }
     
     return value
+})
+
+// Compute placeholder visibility
+// Hide placeholder if label exists and (input is focused or has a value)
+const computedPlaceholder = computed(() => {
+    if (props.label && (!isFocused.value || displayValue.value)) {
+        return ''
+    }
+    return props.placeholder
 })
 
 // Parse input string to number

@@ -1,10 +1,9 @@
 <template>
   <div v-on-click-outside="handleClickOutside" :class="['relative group', width, margin]">
     <Base
-      v-bind="$props"
+      v-bind="baseProps"
       :model-value="modelValue"
       @update:model-value="handleUpdate"
-      v-on="$attrs"
       :dir="computedDir"
       :lang="computedLang"
       :label="label"
@@ -233,6 +232,16 @@
   const computedDir = computed(() => props.dir || cardDir)
   const computedLang = computed(() => props.lang || cardLang)
 
+  // Filter props to only pass Base-compatible props to Base component
+  const baseProps = computed(() => {
+    const basePropsKeys = ['modelValue', 'label', 'dir', 'placeholder', 'prepend', 'append', 'disabled', 'readonly', 'required', 'clearable', 'errorMessages', 'rounded', 'size', 'border', 'textColor', 'bg', 'width', 'hint', 'lang', 'rules', 'error', 'errorMessage', 'messages', 'hideDetails', 'id', 'height', 'margin', 'hover', 'focus', 'bgColorVariant', 'borderColorVariant', 'textColorVariant', 'labelTextSize', 'iconType', 'labelTextColor']
+    const result = {}
+    basePropsKeys.forEach(key => {
+      if (key in props) result[key] = props[key]
+    })
+    return result
+  })
+
   const isOpen = ref(false)
   const computedItems = computed(() => {
     if (props.url && fetchedItems.value.length > 0) {
@@ -445,7 +454,7 @@
 
   const toggleOpen = async () => {
     if (!props.disabled) {
-      isOpen.value = true
+      isOpen.value = !isOpen.value
 
       if (isOpen.value) {
         if (props.url && !props.eager) {

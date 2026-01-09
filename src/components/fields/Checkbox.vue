@@ -98,12 +98,20 @@ import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
-    type: [Boolean, Array],
+    type: [Boolean, Array, String, Number],
     default: false
   },
   value: {
     type: [String, Number, Boolean, Object],
     default: true
+  },
+  trueValue: {
+    type: [String, Number, Boolean],
+    default: true
+  },
+  falseValue: {
+    type: [String, Number, Boolean],
+    default: false
   },
   label: {
     type: String,
@@ -165,7 +173,8 @@ const isChecked = computed(() => {
   if (Array.isArray(props.modelValue)) {
     return props.modelValue.includes(props.value)
   }
-  return props.modelValue === true || props.modelValue === props.value
+  // For non-array mode, check if value equals trueValue
+  return props.modelValue === props.trueValue
 })
 
 // Toggle checkbox
@@ -184,8 +193,8 @@ const toggle = () => {
       newValue.splice(index, 1)
     }
   } else {
-    // Boolean mode (single checkbox)
-    newValue = !props.modelValue
+    // Non-array mode: toggle between trueValue and falseValue
+    newValue = props.modelValue === props.trueValue ? props.falseValue : props.trueValue
   }
 
   emit('update:modelValue', newValue)

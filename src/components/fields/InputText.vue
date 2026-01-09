@@ -4,6 +4,7 @@
     :class="['relative', containerClass, width]"
   >
     <Base
+        v-bind="baseProps"
         :model-value="modelValue"
         :label="label"
         :hint="hint"
@@ -30,19 +31,26 @@
         :rules="rules"
     >
       <template #control="{ attrs, events }">
-        <input
-          ref="inputRef"
-          v-bind="attrs"
-          v-on="events"
-          type="text"
-          :value="modelValue"
-          :placeholder="isFocused && !modelValue ? placeholder : ''"
-          :class="inputClasses"
-          @input="handleInput"
-          @keydown.enter="handleEnter"
-          @focus="handleFocus"
-          @blur="handleBlur"
-        />
+        <div class="flex items-center w-full gap-0">
+          <!-- Prefix text -->
+          <span v-if="prefix" class="text-sm ui-text-secondary whitespace-nowrap px-2">{{ prefix }}</span>
+          <!-- Input -->
+          <input
+            ref="inputRef"
+            v-bind="attrs"
+            v-on="events"
+            type="text"
+            :value="modelValue"
+            :placeholder="isFocused && !modelValue ? placeholder : ''"
+            :class="inputClasses"
+            @input="handleInput"
+            @keydown.enter="handleEnter"
+            @focus="handleFocus"
+            @blur="handleBlur"
+          />
+          <!-- Suffix text -->
+          <span v-if="suffix" class="text-sm ui-text-secondary whitespace-nowrap px-2">{{ suffix }}</span>
+        </div>
       </template>
 
       <!-- Loading spinner in append slot -->
@@ -75,6 +83,8 @@ const props = defineProps({
     loading: { type: Boolean, default: false },
     prepend: { type: String, default: '' },
     append: { type: String, default: '' },
+    prefix: { type: String, default: '' },
+    suffix: { type: String, default: '' },
     rules: { type: Array, default: () => [] },  // ADD THIS
     
     // Search behavior
@@ -107,6 +117,16 @@ const cardLang = inject('parentLang', '')
 // Use component's dir if provided, otherwise use card's dir
 const computedDir = computed(() => props.dir || cardDir)
 const computedLang = computed(() => props.lang || cardLang)
+
+// Filter props to only pass Base-compatible props to Base component
+const baseProps = computed(() => {
+    const basePropsKeys = ['label', 'hint', 'persistentHint', 'disabled', 'readonly', 'required', 'error', 'errorMessages', 'clearable', 'size', 'id', 'prepend', 'append', 'isOpen', 'bg', 'border', 'textColor', 'rounded', 'dir', 'lang', 'width', 'rules', 'errorMessage', 'messages', 'hideDetails', 'height', 'margin', 'hover', 'focus', 'bgColorVariant', 'borderColorVariant', 'textColorVariant', 'labelTextSize', 'iconType', 'labelTextColor']
+    const result = {}
+    basePropsKeys.forEach(key => {
+        if (key in props) result[key] = props[key]
+    })
+    return result
+})
 
 const emit = defineEmits([
   'update:modelValue', 
