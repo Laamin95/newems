@@ -2,14 +2,14 @@
   <div :dir="selectedDirection !== '' ? selectedDirection : ''" :class="[faruma, margin, width, 'group/select overflow-visible ']">
     <div
       :class="[
-        `relative vts-border focus:outline-none transition cursor-pointer flex items-center justify-between gap-2 `,
+        `relative border focus:outline-none transition cursor-pointer flex items-center justify-between gap-2 `,
         width,
         props.height || heights[size],
         sizes[size],
-        isErrored ? 'vts-border-color-error' : 'vts-border-color',
-        disabled ? 'bg-input-hover cursor-not-allowed' : `${bg}`,
-        isOpen && !isErrored ? 'vts-border-color-heavy' : '',
-        !isOpen && !isErrored ? 'vts-border-color-light' : '',
+        isErrored ? 'border-red-500' : ` ${border}`,
+        disabled ? 'bg-color-2 cursor-not-allowed' : `${bg} ${hover} ${focus}`,
+        isOpen && !isErrored ? 'border-color-4' : '',
+        !isOpen && !isErrored ? 'border-color-2' : '',
         rounded ? roundedMap[rounded] : '',
         textColor
       ]"
@@ -21,7 +21,7 @@
       <div class="flex items-center w-full gap-2">
         <div v-if="$slots.prepend || prepend" class="">
           <slot name="prepend">
-            <HeroIcon :size="iconSizes[size]" :name="prepend" :type="iconType == 'outline' ? 'outline' : 'solid'" />
+            <Icon :size="iconSizes[size]" :name="prepend" :type="iconType == 'outline' ? 'outline' : 'solid'" />
           </slot>
         </div>
         <div class="flex-1 w-full">
@@ -43,13 +43,13 @@
         </button>
         <div v-if="$slots.append || append" class="">
           <slot name="append">
-            <HeroIcon :size="iconSizes[size]" :name="append" :type="iconType == 'outline' ? 'outline' : 'solid'" />
+            <Icon :size="iconSizes[size]" :name="append" :type="iconType == 'outline' ? 'outline' : 'solid'" />
           </slot>
         </div>
       </div>
     </div>
-    <div v-if="messagesToShow.length" :class="['.vts-mt-1 text-xs', selectLanguage === 'dv' ? 'text-right' : 'text-left', 'text-input-text']">
-      <div v-for="(msg, i) in messagesToShow" :key="i" :class="isErrored ? 'text-error' : ''">
+    <div v-if="messagesToShow.length" :class="['mt-1 text-xs', selectLanguage === 'dv' ? 'text-right' : 'text-left', 'ui-text-secondary']">
+      <div v-for="(msg, i) in messagesToShow" :key="i" :class="isErrored ? 'text-red-500' : ''">
         {{ useLanguageSelected(msg, selectLanguage, '') }}
         <!-- {{ msg }} -->
       </div>
@@ -57,11 +57,12 @@
   </div>
 </template>
 <script setup>
-  import { computed, inject, ref, watch, onMounted, nextTick, onBeforeUnmount, getCurrentInstance } from 'vue'
-  const { language } = inject('i18n')
+  import { computed, inject, ref, watch, onMounted, nextTick, onBeforeUnmount, getCurrentInstance, useSlots } from 'vue'
   import { useLanguageSelected, roundedMap, sizes, iconSizes, heights } from '@/lib/componentConfig'
-  import HeroIcon from '@/components/pgo/HeroIcon.vue'
+  import Icon from '@/components/icons/Icon.vue'
   import { vOnClickOutside } from '@vueuse/components'
+  const { language } = inject('i18n')
+  const slots = useSlots() 
 
   const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change', 'click:prepend', 'click:append', 'click:clear'])
 
@@ -91,12 +92,12 @@
     size: { type: String, default: 'md' }, // xs | sm | md | lg | xl
     id: { type: String, default: '' },
     width: { type: String, default: 'w-full' },
-    border: { type: String, default: ' border-input-border' },
-    textColor: { type: String, default: 'text-input-text' },
+    border: { type: String, default: ' border-color-2' },
+    textColor: { type: String, default: 'ui-text-secondary ' },
     margin: { type: String, default: '' },
-    bg: { type: String, default: 'bg-surface-elevated' },
-    hover: { type: String, default: 'hover:border-input-hover-border' },
-    focus: { type: String, default: 'focus:border-input-focus-border' },
+    bg: { type: String, default: 'bg-color-1' },
+    hover: { type: String, default: 'hover:border-color-3' },
+    focus: { type: String, default: 'focus:border-color-4' },
     rounded: { type: String, default: 'sm' },
     multiple: { type: Boolean, default: false },
     searchable: { type: Boolean, default: false },
@@ -105,8 +106,9 @@
     textColorVariant: { type: String, default: '' },
     labelTextSize: { type: String, default: 'text-base' },
     iconType: { type: String, default: 'outline' },
-    labelTextColor: { type: String, default: 'text-input-border' },
-    height: { type: String, default: '' }
+    labelTextColor: { type: String, default: 'ui-text-secondary' },
+    height: { type: String, default: '' },
+    focused: { type: Boolean, default: undefined } // External focus control
   })
 
   // Form integration
@@ -118,6 +120,12 @@
   const dirty = ref(false)
   const internalErrorMessages = ref([])
   const hasBlurred = ref(false)
+
+  // Computed to handle both internal and external focus state
+  const isFocused = computed(() => {
+    // Use prop if provided, otherwise use internal state
+    return props.focused !== undefined ? props.focused : focused.value
+  })
 
   /**
    * MAIN LOGIC
@@ -246,10 +254,10 @@
     change: e => emit('change', e.target.value)
   }
 
-  // FIXED: Label positioning logic
+  // FIXED: Label positioning logic - use isFocused instead of focused
   const labelY = computed(() => {
     // Label should be at top if focused, has value, or is open
-    if (focused.value || hasValue.value || props.isOpen) {
+    if (isFocused.value || hasValue.value || props.isOpen) {
       return '-top-[1px]'
     } else {
       return 'top-[48%]'
@@ -262,32 +270,30 @@
 
     if (props.size === 'xs') {
       fontSize = 'text-xs'
-      positionX = props.prepend ? 'inset-4' : 'inset-3'
+      positionX = props.prepend || slots.prepend ? 'inset-4' : 'inset-3'
     } else if (props.size === 'sm') {
       fontSize = 'text-sm'
-      positionX = props.prepend ? 'inset-8' : 'inset-3'
+      positionX = props.prepend || slots.prepend ? 'inset-8' : 'inset-3'
     } else if (props.size === 'md') {
       fontSize = 'text-md'
-      positionX = props.prepend ? 'inset-10' : 'inset-3'
+      positionX = props.prepend || slots.prepend ? 'inset-10' : 'inset-3'
     } else if (props.size === 'lg') {
       fontSize = 'text-lg'
-      positionX = props.prepend ? 'inset-12' : 'inset-3'
+      positionX = props.prepend || slots.prepend ? 'inset-12' : 'inset-3'
     } else if (props.size === 'xl') {
       fontSize = 'text-lg'
-      positionX = props.prepend ? 'inset-14' : 'inset-3'
+      positionX = props.prepend || slots.prepend ? 'inset-14' : 'inset-3'
     } else {
       fontSize = 'text-sm'
-      positionX = props.prepend ? 'inset-8' : 'inset-3'
+      positionX = props.prepend || slots.prepend ? 'inset-8' : 'inset-3'
     }
 
-    // When label is floating (focused, has value, or is open)
-    if (focused.value || hasValue.value || props.isOpen) {
+    // When label is floating (focused, has value, or is open) - use isFocused
+    if (isFocused.value || hasValue.value || props.isOpen) {
       if (selectLanguage.value === 'dv') {
         positionX = 'right-8'
-        // console.log('Floating RTL positionX:', positionX)
       } else {
         positionX = 'left-8'
-        // console.log('Floating RTL positionX:', positionX)
       }
       fontSize = 'text-xs'
     }
@@ -298,17 +304,17 @@
   const labelClasses = computed(() => {
     const classes = ['absolute flex px-2 items-center transition-all pointer-events-none h-[1px]', LabelX.value, labelY.value]
 
-    // Add background only when label is floating
-    if (focused.value || hasValue.value || props.isOpen) {
+    // Add background only when label is floating - use isFocused
+    if (isFocused.value || hasValue.value || props.isOpen) {
       classes.push('bg-inherit')
     } else {
       classes.push('bg-transparent')
     }
 
-    // Color based on error state
+    // Color based on error state - use isFocused
     if (isErrored.value) {
       classes.push('text-error')
-    } else if (focused.value) {
+    } else if (isFocused.value) {
       classes.push('border-input-focus-border')
     } else {
       classes.push('text-input-text')
@@ -328,7 +334,8 @@
         return [props.messages]
       }
     }
-    if (props.hint && props.hint.trim() !== '' && (props.persistentHint || focused.value)) {
+    // Use isFocused for hint visibility
+    if (props.hint && props.hint.trim() !== '' && (props.persistentHint || isFocused.value)) {
       return [props.hint]
     }
     return []

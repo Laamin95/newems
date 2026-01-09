@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* custom colors */
-@theme {
-  --color-primary: #3b82f6;
-  --color-secondary: #f43f5e;
-  --color-tertiary: #fbbf24;
-  --color-quaternary: #a855f7;
-  --color-accent: #4ade80;
-
-  --color-input-first: #f7f7f8;
-  --color-input-second: #ebe8e8;
-  --color-input-third: #e1e2e4;
-  --color-input-forth: #ccd0d4;
-}
-
 /* Custom CSS variables for theme switching */
 @layer base {
   :root {
@@ -27,25 +13,36 @@
     --card-bg: #f8fafc;
     --button-bg: #f1f5f9;
     --button-border: #e2e8f0;
-    --button-hover-border: #747bff;
+    --button-hover-border: #554afa;
     --accent-color: #747bff;
     --accent-hover: #646cff;
     --hover-bg: rgba(0, 0, 0, 0.05);
+
+    --color-1: #f9fafb;
+    --color-2: #f3f4f6;
+    --color-3: #e5e7eb;
+    --color-4: #d1d5db ;
   }
 
   :root.dark {
     /* Dark theme */
     --bg-color: #0b1220;
     --text-color: rgba(255, 255, 255, 0.87);
-    --text-secondary: rgba(255, 255, 255, 0.6);
+    --text-secondary: hsl(215 20.2% 65.1%);
+    --text-secondary: hsl(215 20.2% 65.1%);
     --border-color: rgba(255, 255, 255, 0.1);
     --card-bg: #1e293b;
     --button-bg: #334155;
     --button-border: transparent;
     --button-hover-border: #0f1724;
-    --accent-color: #646cff;
-    --accent-hover: #535bf2;
+    --accent-color: #434cfa;
+    --accent-hover: hsl(215 20.2% 65.1%);
     --hover-bg: rgba(255, 255, 255, 0.05);
+
+    --color-1: #111827;
+    --color-2: #151d2e;
+    --color-3: #1a2233;
+    --color-4: #1e2635;
   }
 
   html {
@@ -55,7 +52,6 @@
   body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
@@ -64,18 +60,49 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
-    display: flex;
+    /* display: flex; */
     place-items: center;
-    min-width: 320px;
     min-height: 100vh;
   }
 
-  h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
+  .ui-bg-color {
+    background-color: var(--bg-color);
+  }
+  .ui-text-color {
+    color: var(--text-color);
+  }
+  .ui-text-secondary {
+    color: var(--text-secondary);
+  }
+  .ui-border-color {
+    border-color: var(--border-color);
+  }
+  .ui-card-bg {
+    background-color: var(--card-bg);
+  }
+  .ui-button-bg {
+    background-color: var(--button-bg);
   }
 
-  button {
+  /* hide native scrollbars when we intentionally don't want scrolling visible */
+  /* .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; 
+  } */
+
+  /* explicit overflow helpers to ensure no scrollbar appears */
+  /* .overflow-x-hidden { overflow-x: hidden; }
+  .overflow-y-hidden { overflow-y: hidden; } */
+
+  /* h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+  } */
+
+  /* button {
     border-radius: 8px;
     border: 1px solid var(--button-border);
     padding: 0.6em 1.2em;
@@ -86,9 +113,9 @@
     color: var(--text-color);
     cursor: pointer;
     transition: all 0.25s ease;
-  }
+  } */
   
-  button:hover {
+  /* button:hover {
     border-color: var(--button-hover-border);
     background-color: var(--hover-bg);
   }
@@ -96,31 +123,23 @@
   button:focus,
   button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
-  }
+  } */
 
-  a {
+  /* a {
     font-weight: 500;
     color: var(--accent-color);
     text-decoration: inherit;
     transition: color 0.3s ease;
-  }
+  } */
   
-  a:hover {
+  /* a:hover {
     color: var(--accent-hover);
-  }
+  } */
 
   #app {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
+    width: 100%;
+    /* margin: 0 auto; */
     text-align: center;
   }
 
-  .card {
-    padding: 2em;
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-  }
 }

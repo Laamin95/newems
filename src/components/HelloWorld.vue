@@ -1,11 +1,4 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import ThemeToggle from './ThemeToggle.vue'
 
-defineProps<{ msg: string }>()
-
-const count = ref(0)
-</script>
 
 <template>
   <div class="w-full">
@@ -14,7 +7,14 @@ const count = ref(0)
       <ThemeToggle />
     </div>
 
-    <div class="p-8 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 mb-6">
+    <InputText 
+      v-model="inputValue"
+      label="Your Label"
+      placeholder="Enter text..."
+      :disabled="false" 
+    />
+
+    <div class="p-8 bg-color-1 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-900 transition-all duration-300 mb-6">
       <button 
         type="button" 
         @click="count++" 
@@ -54,6 +54,16 @@ const count = ref(0)
     <p class="text-gray-500 dark:text-gray-400">Click on the Vite and Vue logos to learn more</p>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import ThemeToggle from './ThemeToggle.vue'
+import InputText from '@/components/fields/InputText.vue'
+
+defineProps<{ msg: string }>()
+ const inputValue = ref('');
+const count = ref(0)
+</script>
 
 <style scoped>
 @media (max-width: 640px) {
