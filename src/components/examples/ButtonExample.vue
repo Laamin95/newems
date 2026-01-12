@@ -18,7 +18,7 @@
     <section class="space-y-4">
       <h2 class="text-lg font-semibold ui-text-primary border-b border-color-3 pb-2">Colors</h2>
       <div class="flex flex-wrap items-center gap-4">
-        <Button color="primary">Primary</Button>
+        <Button v-tooltip.top="{en: 'Bottom', dv: 'ދެން'}" color="primary">Primary</Button>
         <Button color="secondary">Secondary</Button>
         <Button color="success">Success</Button>
         <Button color="warning">Warning</Button>

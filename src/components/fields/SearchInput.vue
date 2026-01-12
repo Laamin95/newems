@@ -4,7 +4,6 @@
     :class="['relative', containerClass, width]"
   >
     <Base
-        v-bind="baseProps"
         :model-value="modelValue"
         :label="label"
         :hint="hint"
@@ -31,33 +30,26 @@
         :rules="rules"
     >
       <template #control="{ attrs, events }">
-        <div class="flex items-center w-full gap-0">
-          <!-- Prefix text -->
-          <span v-if="prefix" class="text-sm ui-text-secondary whitespace-nowrap px-2">{{ prefix }}</span>
-          <!-- Input -->
-          <input
-            ref="inputRef"
-            v-bind="attrs"
-            v-on="events"
-            type="text"
-            :value="modelValue"
-            :placeholder="isFocused && !modelValue ? placeholder : ''"
-            :class="inputClasses"
-            @input="handleInput"
-            @keydown.enter="handleEnter"
-            @focus="handleFocus"
-            @blur="handleBlur"
-          />
-          <!-- Suffix text -->
-          <span v-if="suffix" class="text-sm ui-text-secondary whitespace-nowrap px-2">{{ suffix }}</span>
-        </div>
+        <input
+          ref="inputRef"
+          v-bind="attrs"
+          v-on="events"
+          type="search"
+          :value="modelValue"
+          :placeholder="isFocused && !modelValue ? placeholder : ''"
+          :class="inputClasses"
+          @input="handleInput"
+          @keydown.enter="handleEnter"
+          @focus="handleFocus"
+          @blur="handleBlur"
+        />
       </template>
 
       <!-- Loading spinner in append slot -->
       <template v-if="loading" #append>
         <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
       </template>
     </Base>
@@ -72,7 +64,7 @@ import { roundedMap, sizes, iconSizes } from '@/lib/componentConfig'
 const props = defineProps({
     modelValue: { type: [String, Number], default: '' },
     label: { type: [String, Object], default: '' },
-    placeholder: { type: String, default: 'text ...' },
+    placeholder: { type: String, default: 'Search...' },
     hint: { type: String, default: '' },
     error: { type: String, default: '' },
     errorMessages: { type: Array, default: () => [] },
@@ -81,14 +73,12 @@ const props = defineProps({
     required: { type: Boolean, default: false },
     clearable: { type: Boolean, default: true },
     loading: { type: Boolean, default: false },
-    prepend: { type: String, default: '' },
+    prepend: { type: String, default: 'magnifying-glass' },
     append: { type: String, default: '' },
-    prefix: { type: String, default: '' },
-    suffix: { type: String, default: '' },
     rules: { type: Array, default: () => [] },  // ADD THIS
     
     // Search behavior
-    // debounce: { type: Number, default: 300 },
+    debounce: { type: Number, default: 300 },
     
     // Appearance
     size: { type: String },
@@ -118,16 +108,6 @@ const cardLang = inject('parentLang', '')
 const computedDir = computed(() => props.dir || cardDir)
 const computedLang = computed(() => props.lang || cardLang)
 
-// Filter props to only pass Base-compatible props to Base component
-const baseProps = computed(() => {
-    const basePropsKeys = ['label', 'hint', 'persistentHint', 'disabled', 'readonly', 'required', 'error', 'errorMessages', 'clearable', 'size', 'id', 'prepend', 'append', 'isOpen', 'bg', 'border', 'textColor', 'rounded', 'dir', 'lang', 'width', 'rules', 'errorMessage', 'messages', 'hideDetails', 'height', 'margin', 'hover', 'focus', 'bgColorVariant', 'borderColorVariant', 'textColorVariant', 'labelTextSize', 'iconType', 'labelTextColor']
-    const result = {}
-    basePropsKeys.forEach(key => {
-        if (key in props) result[key] = props[key]
-    })
-    return result
-})
-
 const emit = defineEmits([
   'update:modelValue', 
   'input', 
@@ -135,17 +115,17 @@ const emit = defineEmits([
   'focus', 
   'blur',
   'clear',
-  // 'search',
+  'search',
   'enter'
 ])
 
 const inputRef = ref(null)
 const containerRef = ref(null)
 const isFocused = ref(false)
-// let debounceTimeout = null
+let debounceTimeout = null
 
 // Generate unique ID
-const inputId = computed(() => props.id || `input-${Math.random().toString(36).substr(2, 9)}`)
+const inputId = computed(() => props.id || `search-${Math.random().toString(36).substr(2, 9)}`)
 
 // Input classes
 const inputClasses = computed(() => [
@@ -161,6 +141,11 @@ const handleInput = (e) => {
   // Update immediately for label animation
   emit('update:modelValue', value)
   
+  clearTimeout(debounceTimeout)
+  debounceTimeout = setTimeout(() => {
+    emit('input', value)
+    emit('search', value)
+  }, props.debounce)
 }
 
 const handleFocus = (event) => {
@@ -175,7 +160,7 @@ const handleBlur = (event) => {
 
 const handleEnter = (event) => {
   emit('enter', props.modelValue)
-  // emit('search', props.modelValue)
+  emit('search', props.modelValue)
 }
 
 const clear = () => {
@@ -190,13 +175,20 @@ const focus = () => {
 }
 
 // Lifecycle
-// onBeforeUnmount(() => {
-//   clearTimeout(debounceTimeout)
-// })
+onBeforeUnmount(() => {
+  clearTimeout(debounceTimeout)
+})
 
 // Expose methods
 defineExpose({ focus, clear })
 </script>
 
 <style scoped>
+/* Remove default search input styling */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
 </style>

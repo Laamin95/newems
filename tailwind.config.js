@@ -18,6 +18,9 @@ export default {
         'color-3': 'var(--color-3)',
         'color-4': 'var(--color-4)',
       },
+      borderRadius: {
+        'default': '12px',
+      },
     },
   },
   plugins: [],

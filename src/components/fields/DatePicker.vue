@@ -116,7 +116,7 @@
         append: { type: String, default: '' },
         disabled: { type: Boolean, default: false },
         errorMessages: { type: Array, default: () => [] },
-        rounded: { type: String, default: 'sm' },
+        rounded: { type: String, default: 'd' },
         size: { type: String },
         border: { type: String },
         textColor: { type: String },

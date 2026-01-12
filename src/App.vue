@@ -1,4 +1,5 @@
 <template>
+  <SnackbarContainer />
   <Layout
     :app-bar-height="64"
     :nav-width="navWidth"
@@ -115,6 +116,7 @@ import Layout from '@/components/defaults/Layout.vue'
 import AppBar from '@/components/AppBar.vue'
 import NavBar from '@/components/defaults/NavBar.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
+import SnackbarContainer from '@/components/defaults/SnackbarContainer.vue'
 // import { drawerOpen } from '@/lib/drawerState.ts'
 import Icon from '@/components/icons/Icon.vue'
 import { globalRtl } from '@/lib/rtl/rtl.ts';

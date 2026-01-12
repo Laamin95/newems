@@ -1,10 +1,10 @@
 <template>
   <button :class="buttonClasses" :disabled="disabled || loading" @click="handleClick">
     <!-- Loader -->
-    <span v-if="loading" class="loader vts-mr-2" />
+    <span v-if="loading" class="loader mr-2" />
 
     <!-- Prepend Icon -->
-    <span v-if="($slots.prepend || prependIcon) && !loading" class="vts-mr-2">
+    <span v-if="($slots.prepend || prependIcon) && !loading" class="mr-2">
       <slot name="prepend">
         <Icon v-if="prependIcon" :name="prependIcon" type="outline" :size="iconSizes[props.size]" color="text-current" />
       </slot>
@@ -21,7 +21,7 @@
     </span>
 
     <!-- Append Icon -->
-    <span v-if="($slots.append || appendIcon) && !loading" class="vts-ml-2">
+    <span v-if="($slots.append || appendIcon) && !loading" class="ml-2">
       <slot name="append">
         <Icon
           v-if="appendIcon"
@@ -38,7 +38,7 @@
 
 <script setup>
   import { computed, inject, provide, ref } from 'vue'
-  import Icon from '@/components/icons/Icon.vue'
+   import Icon from '@/components/icons/Icon.vue'
   import { sizes, iconSizes, roundedMap, colorMap } from '@/lib/componentConfig'
 
   const { t, setLanguage } = inject('i18n')
@@ -69,7 +69,7 @@
     },
     rounded: {
       type: String,
-      default: 'sm' // none | sm | md | lg | xl | full
+      default: 'd' // none | d (default) | sm | md | lg | xl | full
     },
     block: {
       type: Boolean,

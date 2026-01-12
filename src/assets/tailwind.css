@@ -84,6 +84,31 @@
     background-color: var(--button-bg);
   }
 
+  /* Global tooltip styles for v-tooltip directive */
+.vts-tooltip {
+    background-color: var(--color-1);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--elevation-2, 0 4px 12px rgba(0, 0, 0, 0.12));
+    padding: 6px 10px;
+    max-width: 280px;
+    pointer-events: none; /* do not steal hover from activator */
+}
+
+.vts-tooltip-content {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.vts-tooltip-arrow {
+    position: absolute;
+    background: var(--color-1);
+    border-top: 1.5px solid var(--border-color);
+    border-left: 1.5px solid var(--border-color);
+    pointer-events: none;
+}
+
   /* hide native scrollbars when we intentionally don't want scrolling visible */
   /* .no-scrollbar {
     -ms-overflow-style: none;

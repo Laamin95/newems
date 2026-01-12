@@ -65,7 +65,7 @@ const { language } = inject('i18n')
         overflow: { type: String, default: 'overflow-auto' },
         bg: { type: String, default: 'bg-background-color' },
         border: { type: String, default: 'border border-input-border' },
-        rounded: { type: String, default: '' },
+        rounded: { type: String, default: 'd' },
         shadow: { type: String, default: '' },
         dir: { type: String, default: '' },
         item: { type: Object, default: null },

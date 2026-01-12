@@ -192,7 +192,7 @@ const props = defineProps({
     required: { type: Boolean, default: false },
     clearable: { type: Boolean, default: false },
     errorMessages: { type: Array, default: () => [] },
-    rounded: { type: String, default: 'sm' },
+    rounded: { type: String, default: 'd' },
     size: { type: String, default: 'md' },
     border: { type: String },
     textColor: { type: String },

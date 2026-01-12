@@ -19,6 +19,7 @@ export const iconSizes = {
 
 export const roundedMap = {
   none: 'rounded-none',
+  d: 'rounded-default',
   sm: 'rounded-sm',
   md: 'rounded-md',
   lg: 'rounded-lg',
