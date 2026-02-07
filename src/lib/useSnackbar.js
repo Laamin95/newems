@@ -1,60 +1,68 @@
-import { ref, h } from 'vue'
-import Snackbar from '@/components/defaults/Snackbar.vue'
+import { ref, readonly } from 'vue'
 
-// Store for managing snackbar instances
 const snackbars = ref([])
 let instanceId = 0
 
-/**
- * Composable for using snackbar with function API (Vuetify style)
- * Usage: const { showSnackbar } = useSnackbar()
- */
-export function useSnackbar() {
-  /**
-   * Show a snackbar notification
-   * @param {Object|String} options - Options object or message string
-   * @returns {Object} - Object with close() method
-   */
-  const show = (options) => {
-    // Handle string message shorthand
-    if (typeof options === 'string') {
-      options = { message: options }
-    }
+// Singleton instance
+let snackbarInstance = null
 
+export function useSnackbar() {
+  // Return existing instance if already created
+  if (snackbarInstance) {
+    return snackbarInstance
+  }
+
+  const show = (options) => {
     const id = ++instanceId
     const isVisible = ref(true)
+
+    const close = () => {
+      isVisible.value = false
+      setTimeout(() => {
+        const index = snackbars.value.findIndex(s => s.id === id)
+        if (index > -1) {
+          snackbars.value.splice(index, 1)
+        }
+      }, 300)
+    }
 
     const snackbar = {
       id,
       isVisible,
       options: {
+        message: '',
+        title: '',
         variant: 'default',
-        position: 'bottom',
+        icon: '',
+        action: '',
         timeout: 5000,
+        position: 'bottom',
         closeable: true,
         showProgress: false,
+        multiline: false,
+        onAction: null,
         ...options
       },
-      close: () => {
-        isVisible.value = false
-        // Remove from array after animation
-        setTimeout(() => {
-          snackbars.value = snackbars.value.filter(s => s.id !== id)
-        }, 300)
-      }
+      close
     }
 
     snackbars.value.push(snackbar)
+
+    // Auto close
+    if (snackbar.options.timeout > 0) {
+      setTimeout(() => {
+        close()
+      }, snackbar.options.timeout)
+    }
+
     return snackbar
   }
 
-  // Convenience methods matching Vuetify
   const success = (message, options = {}) => {
     return show({
       message,
       variant: 'success',
       icon: 'success',
-      timeout: 5000,
       ...options
     })
   }
@@ -64,7 +72,6 @@ export function useSnackbar() {
       message,
       variant: 'error',
       icon: 'error',
-      timeout: 5000,
       ...options
     })
   }
@@ -74,7 +81,6 @@ export function useSnackbar() {
       message,
       variant: 'warning',
       icon: 'warning',
-      timeout: 5000,
       ...options
     })
   }
@@ -84,31 +90,28 @@ export function useSnackbar() {
       message,
       variant: 'info',
       icon: 'info',
-      timeout: 5000,
       ...options
     })
   }
 
-  return {
+  // Create singleton instance
+  snackbarInstance = {
+    snackbars, // This must be the ref itself, not readonly
     show,
     success,
     error,
     warning,
-    info,
-    snackbars
+    info
   }
+
+  return snackbarInstance
 }
 
-/**
- * Get all current snackbar instances
- */
-export function getSnackbars() {
-  return snackbars.value
-}
-
-/**
- * Clear all snackbars
- */
-export function clearAllSnackbars() {
-  snackbars.value.forEach(sb => sb.close())
+// Export shortcuts for direct use
+export const snackbar = {
+  show: (...args) => useSnackbar().show(...args),
+  success: (...args) => useSnackbar().success(...args),
+  error: (...args) => useSnackbar().error(...args),
+  warning: (...args) => useSnackbar().warning(...args),
+  info: (...args) => useSnackbar().info(...args)
 }

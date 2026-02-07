@@ -95,11 +95,10 @@
 
 <script setup>
     import { ref, computed, watch, nextTick, inject } from 'vue'
-    import { roundedMap } from '@/lib/componentConfig'
+    import { roundedMap } from '../../lib/componentConfig'
     import { VueDatePicker } from '@vuepic/vue-datepicker'
     import '@vuepic/vue-datepicker/dist/main.css'
-    import Base from '@/components/fields/Base.vue'
-    import Icon from '@/components/icons/Icon.vue'
+    import { Base } from '../../'
     import { vOnClickOutside } from '@vueuse/components'
 
     const emit = defineEmits(['update:modelValue', 'change', 'clear', 'open', 'close']);

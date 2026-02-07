@@ -126,10 +126,8 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import Base from '@/components/fields/Base.vue'
-import { roundedMap } from '@/lib/componentConfig'
-import Button from '@/components/buttons/Button.vue'
-import Icon from '@/components/icons/Icon.vue'
+import { Base } from '../../'
+import { roundedMap } from '../../lib/componentConfig'
 
 const props = defineProps({
   modelValue: { type: Array, default: () => [] },

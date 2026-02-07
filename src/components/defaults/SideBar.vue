@@ -159,12 +159,9 @@
 </template>
 
 <script setup>
-  import { ref, watch, computed, onMounted, onBeforeUnmount, onUpdated, inject } from 'vue'
-  import { nextTick } from 'vue'
-  import Icon from '@/components/icons/Icon.vue'
-  import SideBarItem from '@/components/defaults/SideBarItem.vue'
-  import { globalRtl } from '@/lib/rtl/rtl'
-import InputText from '../fields/InputText.vue'
+  import { ref, watch, computed, onMounted, onBeforeUnmount, onUpdated, inject, nextTick } from 'vue'
+  import { globalRtl } from '../..//lib/rtl/rtl'
+  import { SideBarItem, InputText } from '../../'
 
 //   const themeStyles = computed(() => ({
 //     backgroundColor: 'var(--color-surface)',

@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import ThemeToggle from './ThemeToggle.vue'
+import ThemeToggle from './defaults/ThemeToggle.vue'
 import InputText from '@/components/fields/InputText.vue'
 
 defineProps<{ msg: string }>()

@@ -163,12 +163,12 @@
 </template>
 <script setup>
   import { ref, computed, watch, nextTick, inject, onMounted } from 'vue'
-  import { roundedMap } from '@/lib/componentConfig'
-//   import Card from '@/components/defaults/Card.vue'
-  import Base from '@/components/fields/Base.vue'
-  import Icon from '@/components/icons/Icon.vue'
+  import { roundedMap } from '../../lib/componentConfig'
+  import { Base, Checkbox } from '../../'
+  // import Base from '@/components/fields/Base.vue'
+  // import Icon from '@/components/icons/Icon.vue'
   import { vOnClickOutside } from '@vueuse/components'
-  import Checkbox from '@/components/fields/Checkbox.vue'
+  // import Checkbox from '@/components/fields/Checkbox.vue'
 
 
   const emit = defineEmits(['update:modelValue', 'change', 'select', 'clear', 'open', 'close', 'focus', 'blur', 'enter', 'search'])

@@ -155,9 +155,7 @@
 </template>
 <script setup>
     import { ref } from 'vue'
-    import Chip from '@/components/fields/Chip.vue'
-    import ChipGroup from '@/components/fields/ChipGroup.vue'
-    import Card from '@/components/defaults/Card.vue'
+    import { Chip, ChipGroup } from '../../'
 
     // Chip Examples Data
     const simpleChips = ref([

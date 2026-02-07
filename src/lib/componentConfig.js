@@ -37,37 +37,37 @@ export const colorMap = {
     tonal: 'bg-surface text-primary transition-colors hover:bg-primary/10'
   },
   success: {
-    contained: 'bg-green-500 text-on-success transition-colors hover:bg-green-600',
+    contained: 'bg-green-500 text-white transition-colors hover:bg-green-600',
     outlined: 'border border-green-500 text-green-500 bg-transparent transition-colors hover:bg-green-100',
     text: 'text-green-500 bg-transparent transition-colors hover:bg-green-100',
     tonal: 'bg-green-100 text-green-500 transition-colors hover:bg-green-100'
   },
   danger: {
-    contained: 'bg-red-500 text-on-error transition-colors hover:bg-red-600',
+    contained: 'bg-red-500 text-white transition-colors hover:bg-red-600',
     outlined: 'border border-red-500 text-red-500 bg-transparent transition-colors hover:bg-red-100',
     text: 'text-red-500 bg-transparent transition-colors hover:bg-red-100',
     tonal: 'bg-red-100 text-red-500 transition-colors hover:bg-red-100'
   },
   warning: {
-    contained: 'bg-yellow-500 text-on-warning transition-colors hover:bg-yellow-600',
+    contained: 'bg-yellow-500 text-white transition-colors hover:bg-yellow-600',
     outlined: 'border border-yellow-500 text-yellow-500 bg-transparent transition-colors hover:bg-yellow-100',
     text: 'text-yellow-500 bg-transparent transition-colors hover:bg-yellow-100',
     tonal: 'bg-yellow-100 text-yellow-500 transition-colors hover:bg-yellow-100'
   },
   info: {
-    contained: 'bg-blue-500 text-on-info transition-colors hover:bg-blue-600',
+    contained: 'bg-blue-500 text-white transition-colors hover:bg-blue-600',
     outlined: 'border border-blue-500 text-blue-500 bg-transparent transition-colors hover:bg-blue-100',
     text: 'text-blue-500 bg-transparent transition-colors hover:bg-blue-100',
     tonal: 'bg-blue-100 text-blue-500 transition-colors hover:bg-blue-100'
   },
   gray: {
-    contained: 'bg-gray-500 text-on-gray transition-colors hover:bg-gray-600',
+    contained: 'bg-gray-500 dark:bg-gray-800 text-gray-50  transition-colors hover:bg-gray-600 dark:hover:bg-gray-700',
     outlined: 'border border-gray-500 text-gray-500 bg-transparent transition-colors hover:bg-gray-100',
     text: 'text-gray-500 bg-transparent transition-colors hover:bg-gray-100',
     tonal: 'bg-gray-100 text-gray-500 transition-colors hover:bg-gray-100'
   },
   disable: {
-    contained: 'bg-gray-200 text-on-disabled transition-colors',
+    contained: 'bg-gray-200 text-white transition-colors',
     outlined: 'border border-gray-400 text-gray-400 bg-transparent transition-colors',
     text: 'text-gray-400 bg-transparent transition-colors',
     tonal: 'bg-gray-400 text-gray-400 transition-colors'
@@ -99,6 +99,29 @@ export const margins = {
   lg: 'm-6',
   xl: 'm-8',
 }
+
+export const topRounded = {
+    sm: 'rounded-t-sm',
+    md: 'rounded-t-md',
+    lg: 'rounded-t-lg',
+    xl: 'rounded-t-xl',
+    '2xl': 'rounded-t-2xl',
+    '3xl': 'rounded-t-3xl',
+    full: 'rounded-t-full',
+    default: 'rounded-t-lg'
+}
+
+export const bottomRounded = {
+    sm: 'rounded-b-sm',
+    md: 'rounded-b-md',
+    lg: 'rounded-b-lg',
+    xl: 'rounded-b-xl',
+    '2xl': 'rounded-b-2xl',
+    '3xl': 'rounded-b-3xl',
+    full: 'rounded-b-full',
+    default: 'rounded-b-lg'
+}
+
 
 export const useLanguageSelected = (item, lang, label = null) => {
 

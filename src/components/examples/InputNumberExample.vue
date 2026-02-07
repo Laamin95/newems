@@ -632,7 +632,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import InputNumber from '@/components/fields/InputNumber.vue'
+import { InputNumber } from '../../'
 
 // Basic usage
 const basicValue = ref(null)

@@ -37,8 +37,7 @@
 
 <script setup>
 import { computed, inject } from 'vue'
-import { sizes, iconSizes, roundedMap, colorMap, useLanguageSelected } from '@/lib/componentConfig'
-import Icon from '@/components/icons/Icon.vue'
+import { sizes, iconSizes, roundedMap, colorMap, useLanguageSelected } from '../../lib/componentConfig'
 const { language } = inject('i18n')
 
 const props = defineProps({

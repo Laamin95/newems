@@ -172,8 +172,7 @@
 
 <script setup>
 import { ref, computed, watch, inject } from 'vue'
-import Base from '@/components/fields/Base.vue'
-import Icon from '@/components/icons/Icon.vue'
+import { Base } from '../../'
 
 const emit = defineEmits(['update:modelValue', 'change', 'blur', 'focus'])
 

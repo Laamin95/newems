@@ -49,7 +49,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import Chip from './Chip.vue'
+import { Chip } from '../../'
 
 const props = defineProps({
   // Data

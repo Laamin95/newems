@@ -396,7 +396,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import Switch from '@/components/buttons/Switch.vue'
+import { Switch } from '../../'
 
 // Basic
 const basic1 = ref(false)

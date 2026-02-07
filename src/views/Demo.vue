@@ -21,28 +21,32 @@
       <template #content-12><DropdownExample /></template>
       <template #content-13><SearchExample /></template>
       <template #content-14><SnackbarExample /></template>
+      <template #content-15><TimelineExample /></template>
+      <template #content-16><OverlayExample /></template>
+      <template #content-17><FooterExample /></template>
+      <template #content-18><ExpansionExample /></template>
+      <template #content-19><FormExample /></template>
+      <template #content-20><AvatarExample /></template>
+      <template #content-21><BreadcrumbsExample /></template>
+      <template #content-22><PaginationExample /></template>
+      <template #content-23><DividerExample /></template>
+      <template #content-24><BadgeExample /></template>
     </Tab>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import Tab from '@/components/Tab.vue'
-import CheckboxExample from '@/components/examples/CheckboxExample.vue'
-import SwitchExample from '@/components/examples/SwitchExample.vue'
-import RadioExample from '@/components/examples/RadioExample.vue'
-import ButtonExample from '@/components/examples/ButtonExample.vue'
-import InputTextExample from '@/components/examples/InputTextExample.vue'
-import DatePickerExample from '@/components/examples/DatePickerExample.vue'
-import SelectExample from '@/components/examples/SelectExample.vue'
-import InputNumberExample from '@/components/examples/InputNumberExample.vue'
-import TextAreaExample from '@/components/examples/TextAreaExample.vue'
-import ChipExample from '@/components/examples/ChipExample.vue'
-import FileUploadExample from '@/components/examples/FileUploadExample.vue'
-import BannerExample from '@/components/examples/BannerExample.vue'
-import DropdownExample from '@/components/examples/DropdownExample.vue'
-import SearchExample from '@/components/examples/SearchExample.vue'
-import SnackbarExample from '@/components/examples/SnackbarExample.vue'
+import { Tab } from '../'
+
+import { 
+  CheckboxExample, SwitchExample, RadioExample, ButtonExample, InputTextExample,
+  DatePickerExample, SelectExample, InputNumberExample, TextAreaExample, ChipExample,
+  FileUploadExample, BannerExample, DropdownExample, SearchExample, SnackbarExample,
+  TimelineExample, OverlayExample, FooterExample, ExpansionExample, FormExample,
+  AvatarExample, BreadcrumbsExample, PaginationExample, DividerExample, BadgeExample
+
+} from '../'
 
 const activeTab10 = ref(0)
 
@@ -62,5 +66,15 @@ const tabsData = [
   { label: 'Dropdown' },
   { label: 'Search' },
   { label: 'Snackbar' },
+  { label: 'Timeline' },
+  { label: 'Overlay' },
+  { label: 'Footer' },
+  { label: 'Expansion' },
+  { label: 'Form' },
+  { label: 'Avatar' },
+  { label: 'Breadcrumbs' },
+  { label: 'Pagination' },
+  { label: 'Divider' },
+  { label: 'Badge' }
 ]
 </script>

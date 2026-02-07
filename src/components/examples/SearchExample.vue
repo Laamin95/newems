@@ -1,6 +1,6 @@
 <template>
 
-<InputSearch
+<SearchInput
     v-model="data.name"
     label="Name"
 />
@@ -8,7 +8,7 @@
 <script setup>
 
 import { ref } from 'vue'
-import InputSearch from '@/components/fields/SearchInput.vue'
+import { SearchInput } from '../../'
 
 const data = ref({
   name: ''

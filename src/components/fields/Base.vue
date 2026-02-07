@@ -58,8 +58,8 @@
 </template>
 <script setup>
   import { computed, inject, ref, watch, onMounted, nextTick, onBeforeUnmount, getCurrentInstance, useSlots } from 'vue'
-  import { useLanguageSelected, roundedMap, sizes, iconSizes, heights } from '@/lib/componentConfig'
-  import Icon from '@/components/icons/Icon.vue'
+  import { useLanguageSelected, roundedMap, sizes, iconSizes, heights } from '../../lib/componentConfig'
+  // import Icon from '@/components/icons/Icon.vue'
   import { vOnClickOutside } from '@vueuse/components'
   const { language } = inject('i18n')
   const slots = useSlots() 

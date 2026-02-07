@@ -1,5 +1,5 @@
 <template>
-  <SnackbarContainer />
+  <!-- <SnackbarContainer /> -->
   <Layout
     :app-bar-height="64"
     :nav-width="navWidth"
@@ -108,18 +108,82 @@
     <router-view />
 
   </Layout>
+   <div class="fixed inset-0 pointer-events-none z-[9999]">
+      <!-- Bottom snackbars -->
+      <div class="fixed bottom-4 left-0 right-0 flex flex-col items-center gap-2">
+        <Snackbar
+          v-for="sb in bottomSnackbars"
+          :key="sb.id"
+          v-model="sb.isVisible"
+          :message="sb.options.message"
+          :title="sb.options.title"
+          :variant="sb.options.variant"
+          :icon="sb.options.icon"
+          :action="sb.options.action"
+          :timeout="sb.options.timeout"
+          :position="sb.options.position"
+          :closeable="sb.options.closeable"
+          :showProgress="sb.options.showProgress"
+          :multiline="sb.options.multiline"
+          class="pointer-events-auto"
+          @close="sb.close"
+          @action="sb.options.onAction"
+        />
+      </div>
+
+      <!-- Top snackbars -->
+      <div class="fixed top-4 left-0 right-0 flex flex-col items-center gap-2">
+        <Snackbar
+          v-for="sb in topSnackbars"
+          :key="sb.id"
+          v-model="sb.isVisible"
+          :message="sb.options.message"
+          :title="sb.options.title"
+          :variant="sb.options.variant"
+          :icon="sb.options.icon"
+          :action="sb.options.action"
+          :timeout="sb.options.timeout"
+          :position="sb.options.position"
+          :closeable="sb.options.closeable"
+          :showProgress="sb.options.showProgress"
+          :multiline="sb.options.multiline"
+          class="pointer-events-auto"
+          @close="sb.close"
+          @action="sb.options.onAction"
+        />
+      </div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import Layout from '@/components/defaults/Layout.vue'
-import AppBar from '@/components/AppBar.vue'
-import NavBar from '@/components/defaults/NavBar.vue'
-import ThemeToggle from '@/components/ThemeToggle.vue'
-import SnackbarContainer from '@/components/defaults/SnackbarContainer.vue'
-// import { drawerOpen } from '@/lib/drawerState.ts'
+import { ref, computed, provide, watch   } from 'vue'
+import { Layout, AppBar, NavBar, ThemeToggle, Snackbar } from './index.js'
 import Icon from '@/components/icons/Icon.vue'
 import { globalRtl } from '@/lib/rtl/rtl.ts';
+import { useSnackbar } from '@/lib/useSnackbar'
+
+
+const snackbarAPI = useSnackbar()
+
+// Provide globally
+provide('useSnackbar', snackbarAPI)
+
+watch(() => snackbarAPI.snackbars.value, (newVal) => {
+  console.log('Snackbars updated:', newVal)
+}, { deep: true })
+
+// Computed snackbar lists
+const bottomSnackbars = computed(() => {
+  const filtered = snackbarAPI.snackbars.value.filter(s => s.options.position === 'bottom')
+  console.log('Bottom snackbars:', filtered)
+  return filtered
+})
+
+const topSnackbars = computed(() => {
+  const filtered = snackbarAPI.snackbars.value.filter(s => s.options.position === 'top')
+  console.log('Top snackbars:', filtered)
+  return filtered
+})
 
 // for AppBar
   const rtl = ref(false)

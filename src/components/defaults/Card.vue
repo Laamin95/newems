@@ -1,16 +1,16 @@
 <template>
   <div
     :dir="selectedDirection !== '' ? selectedDirection : ''"
-    :class="[faruma, margin, border, rounded ? `rounded-${rounded}` : '', shadow, cardClass, width, bg, `relative`,]"
+    :class="[faruma, margin, border, roundedMap[rounded], shadow, cardClass, width, bg, `relative`,]"
   >
     <!-- Card Header -->
     <div
       v-if="$slots.header || title || (labels && (labels.en || labels.dv))"
-      class="overflow-clip "
+      class=""
     >
       <slot name="header">
         <div
-          :class="[headerClass, headerBg, headerPadding, topRoundedClass, headerBd , headerText, `overflow-hidden`]"
+          :class="[headerClass, headerBg, headerPadding, topRounded[rounded], headerBd , headerText, `overflow-hidden`]"
         >
           <h3 :class="[titleClass, headerTextSize ]">
             {{ selectedlabels.title ? selectedlabels.title : props.title }}
@@ -25,7 +25,7 @@
     </div> <!-- Card Footer -->
     <div
       v-if="$slots.footer"
-      :class="[footerClass, footerBg, footerText, footerTextSize, footerBd, footerMargin, footerPadding, bottomRoundedClass ]"
+      :class="[footerClass, footerBg, footerText, footerTextSize, footerBd, footerMargin, footerPadding, bottomRounded[rounded] ]"
     >
       <slot name="footer">
         {{ selectedlabels.footer ? selectedlabels.footer : '' }}
@@ -36,7 +36,7 @@
 
 <script setup>
 // import { provide } from 'vue'
-import { useLanguageSelected } from '@/lib/componentConfig'
+import { useLanguageSelected, roundedMap, topRounded, bottomRounded } from '../../lib/componentConfig'
 import { computed, inject, ref, provide } from 'vue'
 const { language } = inject('i18n')
 
@@ -61,27 +61,27 @@ const { language } = inject('i18n')
         id: { type: String, default: '' },
         width: { type: String, default: '' },
         title: { type: [String, Object], default: '' },
-        cardClass: { type: String, default: '' },
+        cardClass: { type: [String, Object], default: '' },
         overflow: { type: String, default: 'overflow-auto' },
-        bg: { type: String, default: 'bg-background-color' },
-        border: { type: String, default: 'border border-input-border' },
+        bg: { type: String, default: 'ui-bg-color' },
+        border: { type: String, default: 'ui-border-color' },
         rounded: { type: String, default: 'd' },
         shadow: { type: String, default: '' },
         dir: { type: String, default: '' },
         item: { type: Object, default: null },
 
         //body props
-        bodyClass: { type: String, default: '' },
+        bodyClass: { type: String, default: 'overflow-y-auto ' },
         margin: { type: String, default: 'mx-0 my-6' },
         padding: { type: String, default: 'px-6 py-4' },
-        textColor: { type: String, default: 'text-input-text' },
+        textColor: { type: String, default: 'ui-text-color' },
         textSize: { type: String, default: 'text-base' },
 
         // header props
         headerClass: { type: String, default: '' },
         titleClass: { type: String, default: '' },
         headerBg: { type: String, default: '' },
-        headerText: { type: String, default: 'text-input-text' },
+        headerText: { type: String, default: 'ui-text-color' },
         headerTextSize: { type: String, default: 'text-lg font-semibold' },
         headerBd: { type: String, default: '' },
         headerMargin: { type: String, default: '' },
@@ -90,7 +90,7 @@ const { language } = inject('i18n')
         //footer props
         footerClass: { type: String, default: '' },
         footerBg: { type: String, default: '' },
-        footerText: { type: String, default: 'text-input-text' },
+        footerText: { type: String, default: 'ui-text-color' },
         footerTextSize: { type: String, default: '' },
         footerBd: { type: String, default: '' },
         footerMargin: { type: String, default: '' },
@@ -145,34 +145,7 @@ const { language } = inject('i18n')
         return useLanguageSelected(props.labels, selectLanguage.value, '')
     })
 
-    // console.log('selectedlabels in Card:', selectedlabels.value.title)
 
-    const topRoundedClass = computed(() => {
-        switch (props.rounded) {
-            case 'sm': return 'rounded-t-sm'
-            case 'md': return 'rounded-t-md'
-            case 'lg': return 'rounded-t-lg'
-            case 'xl': return 'rounded-t-xl'
-            case '2xl': return 'rounded-t-2xl'
-            case '3xl': return 'rounded-t-3xl'
-            case 'full': return 'rounded-t-full'
-            default: return 'rounded-t-lg'
-        }
-
-    })
-    const bottomRoundedClass = computed(() => {
-        switch (props.rounded) {
-            case 'sm': return 'rounded-b-sm'
-            case 'md': return 'rounded-b-md'
-            case 'lg': return 'rounded-b-lg'
-            case 'xl': return 'rounded-b-xl'
-            case '2xl': return 'rounded-b-2xl'
-            case '3xl': return 'rounded-b-3xl'
-            case 'full': return 'rounded-b-full'
-            default: return 'rounded-b-lg'
-        }
-
-    })
 
 </script>
 <style scoped></style>

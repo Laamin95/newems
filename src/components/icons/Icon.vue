@@ -9,8 +9,7 @@
 
 <script setup lang="ts">
 import type { Component } from "vue";
-import { defineProps, withDefaults, computed, useAttrs } from "vue";
-import { defineAsyncComponent } from "vue";
+import { computed, useAttrs, defineAsyncComponent } from "vue";
 
 // Props
 interface Props {

@@ -92,7 +92,7 @@
 
 <script setup>
 import { computed } from 'vue'
-  import { sizes, iconSizes, roundedMap, colorMap } from '@/lib/componentConfig'
+  import { sizes, iconSizes, roundedMap, colorMap } from '../../lib/componentConfig'
 
 const props = defineProps({
   // Content

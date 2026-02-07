@@ -1,7 +1,7 @@
 <template>
   <Card :title="'File Upload'" class="mb-4">
     <div class="space-y-3">
-      <FileUpload
+      <File
         v-model="files"
         label="Upload files"
         hint="Images allowed, max 2MB each"
@@ -23,8 +23,7 @@
 
 <script setup>
   import { ref } from 'vue'
-  import Card from '@/components/defaults/Card.vue'
-  import FileUpload from '@/components/fields/FileUpload.vue'
+  import { File } from '../../'
 
   const files = ref([])
 

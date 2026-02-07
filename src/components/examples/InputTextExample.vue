@@ -691,7 +691,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import InputText from '@/components/fields/InputText.vue'
+import { InputText } from '../../'
 
 // Basic usage
 const basicValue = ref('')

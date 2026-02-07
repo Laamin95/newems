@@ -233,9 +233,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import Card from '@/components/defaults/Card.vue'
-import Banner from '@/components/defaults/Banner.vue'
-import Button from '@/components/buttons/Button.vue'
+import { Banner } from '../../'
 
 const showDefault = ref(true)
 const showInfo = ref(true)

@@ -791,7 +791,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import Select from '@/components/fields/Select.vue'
+import { Select } from '../../'
 
 // Basic usage
 const basicValue = ref(null)

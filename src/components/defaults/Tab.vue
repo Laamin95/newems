@@ -2,7 +2,11 @@
   <div
     :id="tabId"
     :dir="isRtl ? 'rtl' : 'ltr'"
-    :class="[ vertical ? 'flex flex-row gap-6 h-full' : 'flex flex-col', contentHeightClass ]"
+    :class="[
+      vertical ? 'flex flex-row gap-6' : 'flex flex-col',
+      scrollable && contentHeight ? contentHeight : '',
+      scrollable ? '' : 'h-auto'
+    ]"
   >
     <!-- Tab List -->
     <div 
@@ -12,18 +16,16 @@
       :aria-label="ariaLabel"
       :class="[
         'relative flex-shrink-0',
-        vertical
-         ? (shouldScroll ? 'overflow-y-auto' : 'overflow-y-hidden no-scrollbar')
-        : (shouldScroll ? 'overflow-x-auto' : 'overflow-x-hidden no-scrollbar'),
+        getListOverflowClasses,
         getListClasses
       ]"
     >
       <div 
         :class="[
           'flex',
-          vertical
-            ? 'flex-col space-y-1'
-            : (shouldScroll ? 'flex-row whitespace-nowrap' : 'flex-row flex-wrap'),
+          vertical 
+            ? 'flex-col space-y-1' 
+            : (scrollable ? 'flex-row whitespace-nowrap' : 'flex-row flex-wrap'),
           getListContainerClasses
         ]"
       >
@@ -86,7 +88,7 @@
 
       <!-- Scroll buttons for horizontal tabs (only when scrollable) -->
       <div 
-        v-if="!vertical && shouldScroll && showScrollButtons && (canScrollLeft || canScrollRight)" 
+        v-if="!vertical && scrollable && showScrollButtons && (canScrollLeft || canScrollRight)" 
         class="absolute top-1/2 -translate-y-1/2 right-0 flex items-center gap-1 bg-gradient-to-l from-color-1 via-color-1 to-transparent pl-6 pr-1"
       >
         <button 
@@ -113,7 +115,7 @@
     </div>
 
     <!-- Tab Panels -->
-    <div :class="['flex-1 min-w-0 min-h-0 overflow-auto', getPanelContainerClasses]">
+    <div :class="getPanelContainerClasses">
       <template v-for="(tab, index) in tabsComputed" :key="index">
         <div
           v-if="!lazy || activeTab === index"
@@ -122,7 +124,7 @@
           role="tabpanel"
           :aria-labelledby="`tab-${tabId}-${index}`"
           :tabindex="0"
-          class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          class="focus-visible:outline-none"
           :class="getPanelClasses"
         >
           <slot :name="`content-${index}`" :tab="tab">
@@ -136,7 +138,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { globalRtl } from '@/lib/rtl/rtl.ts'
+import { globalRtl } from '../../lib/rtl/rtl.ts'
 
 const props = defineProps({
   // Data
@@ -163,10 +165,10 @@ const props = defineProps({
   showScrollButtons: { type: Boolean, default: true },
   fullWidth: { type: Boolean, default: false },
 
-  // New: control whether tabs should scroll or wrap
+  // Scrolling - only scroll when this is true AND contentHeight is provided
   scrollable: { type: Boolean, default: false },
 
-  // Layout
+  // Layout - height for scrollable content (e.g., 'h-[500px]', 'h-screen', 'max-h-[80vh]')
   contentHeight: { type: String, default: '' },
 
   // Accessibility
@@ -192,11 +194,18 @@ const canScrollRight = ref(false)
 // RTL support
 const isRtl = computed(() => globalRtl.value)
 
-// expose contentHeight as class string (empty if not provided)
-const contentHeightClass = computed(() => props.contentHeight || '')
+// Only enable scrolling when BOTH scrollable prop is true
+const shouldScroll = computed(() => props.scrollable)
 
-// decide whether horizontal scrolling should be used
-const shouldScroll = computed(() => props.scrollable && !props.vertical)
+// Overflow classes for tab list
+const getListOverflowClasses = computed(() => {
+  if (!shouldScroll.value) {
+    // No scrolling - hide any overflow completely
+    return 'overflow-visible'
+  }
+  // Scrolling enabled
+  return props.vertical ? 'overflow-y-auto' : 'overflow-x-auto'
+})
 
 // List container classes (the wrapper around tabs)
 const getListClasses = computed(() => {
@@ -248,9 +257,13 @@ const getListContainerClasses = computed(() => {
   return ''
 })
 
-// Panel container classes
+// Panel container classes - only add overflow when scrollable with height
 const getPanelContainerClasses = computed(() => {
-  return 'overflow-y-auto'
+  if (shouldScroll.value && props.contentHeight) {
+    return 'flex-1 min-w-0 min-h-0 overflow-auto'
+  }
+  // No scrolling - content grows naturally, no overflow
+  return 'flex-1 min-w-0'
 })
 
 // Tab size classes
@@ -289,7 +302,6 @@ const getTabVariantClasses = (index) => {
   const tab = tabsComputed.value[index]
   const isDisabled = tab?.disabled || props.disabled
   
-  // Base classes for all variants
   let classes = 'font-medium '
   
   if (props.fullWidth && !props.vertical) {
@@ -300,7 +312,6 @@ const getTabVariantClasses = (index) => {
     classes += 'w-full justify-start '
   }
   
-  // Variant-specific classes
   if (props.variant === 'default') {
     classes += 'rounded-md '
     if (isActive) {
@@ -372,7 +383,6 @@ const getBadgeClasses = (tab) => {
     return 'bg-color-3 ui-text-color'
   }
   
-  // Default
   return 'bg-primary text-white'
 }
 
@@ -510,9 +520,9 @@ watch(
 )
 
 let scrollObserver = null
+
 const attachScrollListeners = () => {
   if (!scrollContainer.value || !shouldScroll.value) return
-  // update once after DOM update
   nextTick(updateScrollButtons)
   scrollContainer.value.addEventListener('scroll', updateScrollButtons)
   if (typeof ResizeObserver !== 'undefined') {
@@ -544,7 +554,3 @@ onBeforeUnmount(() => {
   detachScrollListeners()
 })
 </script>
-
-<style scoped>
-
-</style>

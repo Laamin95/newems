@@ -728,7 +728,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import DatePicker from '@/components/fields/DatePicker.vue'
+import { Datepicker } from '../../'
 
 // Helper dates
 const today = new Date()

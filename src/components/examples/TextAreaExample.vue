@@ -237,7 +237,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import Textarea from '@/components/fields/Textarea.vue'
+import { Textarea } from '../../'
 
 // Basic Usage
 const basicValue = ref('')

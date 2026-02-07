@@ -364,7 +364,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import Radio from '@/components/buttons/radio/Radio.vue'
+import { Radio } from '../../'
 
 // Basic
 const basic = ref('option1')

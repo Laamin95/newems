@@ -58,9 +58,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import Card from '@/components/defaults/Card.vue'
-import Dropdown from '@/components/defaults/Dropdown.vue'
-import DropdownItem from '@/components/defaults/DropdownItem.vue'
+import { Dropdown, DropdownItem } from '../../'
 
 const selectedItem = ref(null)
 

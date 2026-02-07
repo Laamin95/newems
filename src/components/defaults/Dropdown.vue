@@ -52,7 +52,7 @@
 <script setup>
 // import { colorMap } from '@/lib/componentConfig'
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
-import { sizes, iconSizes, roundedMap, colorMap } from '@/lib/componentConfig'
+import { sizes, iconSizes, roundedMap, colorMap } from '../../lib/componentConfig'
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },

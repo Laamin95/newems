@@ -38,8 +38,8 @@
 
 <script setup>
   import { computed, inject, provide, ref } from 'vue'
-   import Icon from '@/components/icons/Icon.vue'
-  import { sizes, iconSizes, roundedMap, colorMap } from '@/lib/componentConfig'
+   import { Icon } from '../../'
+  import { sizes, iconSizes, roundedMap, colorMap } from '../../lib/componentConfig'
 
   const { t, setLanguage } = inject('i18n')
 

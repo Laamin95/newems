@@ -384,7 +384,7 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue'
-import Checkbox from '@/components/fields/Checkbox.vue'
+import { Checkbox } from '../../'
 
 // Basic
 const basic1 = ref(false)

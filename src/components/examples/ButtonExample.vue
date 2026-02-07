@@ -431,7 +431,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import Button from '@/components/buttons/Button.vue'
 
 // Loading state demo
 const isLoading = ref(false)

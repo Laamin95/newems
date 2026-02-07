@@ -200,9 +200,8 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount, provide } from 'vue'
-import Icon from '@/components/icons/Icon.vue'
-import InputText from '../fields/InputText.vue'
-import { useLanguageSelected, roundedMap, sizes, iconSizes, heights } from '@/lib/componentConfig'
+import { InputText } from '../../'
+import { useLanguageSelected, roundedMap, sizes, iconSizes, heights } from '../../lib/componentConfig'
 
 const props = defineProps({
   modelValue: { type: Boolean, default: true },

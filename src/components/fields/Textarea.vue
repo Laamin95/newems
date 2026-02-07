@@ -46,8 +46,8 @@
 
 <script setup>
 import { ref, computed, inject, onBeforeUnmount } from 'vue'
-import Base from '@/components/fields/Base.vue'
-import { roundedMap, sizes, iconSizes, heights } from '@/lib/componentConfig'
+import { Base } from '../../'
+import { roundedMap, sizes, iconSizes, heights } from '../../lib/componentConfig'
 
 const props = defineProps({
     modelValue: { type: [String, Number], default: '' },

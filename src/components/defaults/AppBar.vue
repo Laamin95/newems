@@ -96,7 +96,6 @@
 
 <script setup>
   import { ref, computed, onMounted, onBeforeUnmount, inject } from 'vue'
-  import Icon from '@/components/icons/Icon.vue'
   import { globalRtl } from '@/lib/rtl/rtl'
 
 //   const themeStyles = computed(() => ({
