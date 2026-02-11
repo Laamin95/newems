@@ -107,7 +107,7 @@
               <ul class="space-y-1 px-2">
                 <li v-for="item in group.items" :key="item.id || item.label">
                   <component
-                    :is="item.href ? 'a' : 'button'"
+                    :is="item.href ? 'a' : 'a'"
                     :href="item.href"
                     @click="onItemClick(item)"
                     :class="[
@@ -125,7 +125,7 @@
                     <span v-if="!isCollapsed" class="truncate">{{ item.label }}</span>
                     <span
                       v-if="item.badge && !isCollapsed"
-                      class="ml-auto inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium rounded-full bg-red-100 text-red-600"
+                      class="ml-auto flex items-center justify-center px-2 py-0.5 text-xs font-medium rounded-full bg-red-100 text-red-600"
                     >
                       {{ item.badge }}
                     </span>
@@ -145,7 +145,7 @@
                     >
                       <li v-for="child in item.children" :key="child.id || child.label">
                         <component
-                          :is="child.href ? 'a' : 'button'"
+                          :is="child.href ? 'a' : 'a'"
                           :href="child.href"
                           @click="onItemClick(child)"
                           :class="[

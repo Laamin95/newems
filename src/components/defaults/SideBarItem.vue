@@ -6,8 +6,8 @@
       'nav-drawer-item flex items-center px-3 py-2 rounded-md cursor-pointer transition-colors',
       'hover:bg-color-2',
       dragging ? 'opacity-50' : '',
-      isDragOver && dragPos === 'before' ? 'border-t-2 border-primary' : '',
-      isDragOver && dragPos === 'after' ? 'border-b-2 border-primary' : ''
+      isDragOver && dragPos === 'before' ? 'border-t-2 border-color-1' : '',
+      isDragOver && dragPos === 'after' ? 'border-b-2 border-color-1' : ''
     ]"
     @dragstart="onDragStart"
     @dragover.prevent="onDragOver"
